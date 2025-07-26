@@ -80,7 +80,7 @@ pipeline {
 
     triggers {
         cron('30 5 * * 1')
-        cron('0 14 * * *')
+        
     }
 
     parameters {

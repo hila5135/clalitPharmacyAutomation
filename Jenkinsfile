@@ -76,16 +76,13 @@
 
 
 pipeline {
-    agent any
+    agent {label 'verisoft-2'}
 
     tools {
         maven 'Maven_3.9'
     }
 
-    triggers {
-        cron('30 5 * * 1')
 
-    }
 
     parameters {
         string(name: 'REPO_URL', defaultValue: 'https://github.com/hila5135/clalitPharmacyAutomation.git', description: 'Repository URL')
@@ -153,4 +150,8 @@ pipeline {
             echo "Pipeline failed!"
         }
     }
+    triggers {
+            cron('30 5 * * 1/n 0 14 * * *')
+
+        }
 }

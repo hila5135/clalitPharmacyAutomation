@@ -1,7 +1,9 @@
 package tests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -19,8 +21,8 @@ public class ClalitPharmacyTest {
     HomePage homePage;
     ServicesLocatorPage servicesPage;
 
-//    @BeforeClass
-//    public  void  setUp(){
+    @BeforeClass
+    public  void  setUp(){
 //        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\webdrivers\\chrome\\chromedriver.exe");
 //        driver = new ChromeDriver();
 //        driver.manage().window().maximize();
@@ -28,31 +30,23 @@ public class ClalitPharmacyTest {
 //        searchPage = new PharmacySearchPage(driver);
 //        homePage = new HomePage(driver);
 //        servicesPage = new ServicesLocatorPage(driver);
-//
-//    }
-@BeforeClass
-public void setUp() {
-    // במקום שורה שמגדירה נתיב ידני:
-    // System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\webdrivers\\chrome\\chromedriver.exe");
 
-    // נשתמש ב-WebDriverManager כדי להוריד ולהגדיר את ה-driver הנכון לסביבה
-    WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().setup();
 
-    // אופציה להריץ ב-headless בשרת (ללא פתיחת חלון אמיתי) – מאוד מתאים ל-Jenkins
-    ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless");  // אפשר למחוק אם כן רוצים לראות חלון בלוקאלי
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*"); // מונע בעיות אבטחה
+        options.addArguments("--headless"); // כדי שירוץ בלי לפתוח חלון כרום ב־Jenkins
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-    driver = new ChromeDriver(options);
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.get("https://www.clalit.co.il/he/Pages/default.aspx");
 
-    driver.manage().window().maximize();
-    driver.get("https://www.clalit.co.il/he/Pages/default.aspx");
-
-    searchPage = new PharmacySearchPage(driver);
-    homePage = new HomePage(driver);
-    servicesPage = new ServicesLocatorPage(driver);
-}
+        searchPage = new PharmacySearchPage(driver);
+        homePage = new HomePage(driver);
+        servicesPage = new ServicesLocatorPage(driver);
+    }
     @Test
     public void test(){
         homePage.clickServiceLocator();

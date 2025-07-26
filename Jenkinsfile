@@ -78,9 +78,13 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven_3.9'
+    }
+
     triggers {
         cron('30 5 * * 1')
-        
+
     }
 
     parameters {

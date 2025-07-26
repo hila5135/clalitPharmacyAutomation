@@ -78,6 +78,9 @@
 pipeline {
     agent {label 'verisoft-2'}
 
+
+
+
     parameters {
         string(name: 'REPO_URL', defaultValue: 'https://github.com/hila5135/clalitPharmacyAutomation.git', description: 'Repository URL')
         string(name: 'NAME_BRANCH', defaultValue: 'main', description: 'Branch name to build')
@@ -145,7 +148,7 @@ pipeline {
         }
     }
     triggers {
-            cron('30 5 * * 1/n 0 14 * * *')
+            cron('30 5 * * 1')
 
         }
 }

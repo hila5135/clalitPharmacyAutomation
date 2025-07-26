@@ -78,12 +78,6 @@
 pipeline {
     agent {label 'verisoft-2'}
 
-    tools {
-        maven 'Maven_3.9'
-    }
-
-
-
     parameters {
         string(name: 'REPO_URL', defaultValue: 'https://github.com/hila5135/clalitPharmacyAutomation.git', description: 'Repository URL')
         string(name: 'NAME_BRANCH', defaultValue: 'main', description: 'Branch name to build')

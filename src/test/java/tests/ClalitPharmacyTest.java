@@ -19,17 +19,40 @@ public class ClalitPharmacyTest {
     HomePage homePage;
     ServicesLocatorPage servicesPage;
 
-    @BeforeClass
-    public  void  setUp(){
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\webdrivers\\chrome\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://www.clalit.co.il/he/Pages/default.aspx");
-        searchPage = new PharmacySearchPage(driver);
-        homePage = new HomePage(driver);
-        servicesPage = new ServicesLocatorPage(driver);
+//    @BeforeClass
+//    public  void  setUp(){
+//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\webdrivers\\chrome\\chromedriver.exe");
+//        driver = new ChromeDriver();
+//        driver.manage().window().maximize();
+//        driver.get("https://www.clalit.co.il/he/Pages/default.aspx");
+//        searchPage = new PharmacySearchPage(driver);
+//        homePage = new HomePage(driver);
+//        servicesPage = new ServicesLocatorPage(driver);
+//
+//    }
+@BeforeClass
+public void setUp() {
+    // במקום שורה שמגדירה נתיב ידני:
+    // System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\webdrivers\\chrome\\chromedriver.exe");
 
-    }
+    // נשתמש ב-WebDriverManager כדי להוריד ולהגדיר את ה-driver הנכון לסביבה
+    WebDriverManager.chromedriver().setup();
+
+    // אופציה להריץ ב-headless בשרת (ללא פתיחת חלון אמיתי) – מאוד מתאים ל-Jenkins
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless");  // אפשר למחוק אם כן רוצים לראות חלון בלוקאלי
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+
+    driver = new ChromeDriver(options);
+
+    driver.manage().window().maximize();
+    driver.get("https://www.clalit.co.il/he/Pages/default.aspx");
+
+    searchPage = new PharmacySearchPage(driver);
+    homePage = new HomePage(driver);
+    servicesPage = new ServicesLocatorPage(driver);
+}
     @Test
     public void test(){
         homePage.clickServiceLocator();
